@@ -7,9 +7,21 @@
     tools:context="com.example.helderrocha.testeparaserinvolvido.home.HomeActivity">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:ignore="MissingConstraints" />
+        android:clipToPadding="false"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:itemCount="10"
+        tools:listitem="@layout/movie_item" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        tools:visibility="gone" />
+
 </android.support.constraint.ConstraintLayout>
