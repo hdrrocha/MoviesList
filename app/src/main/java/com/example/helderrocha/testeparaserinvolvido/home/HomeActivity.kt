@@ -2,6 +2,7 @@ package com.example.helderrocha.testeparaserinvolvido.home
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,6 +13,7 @@ import com.arctouch.codechallenge.home.ViewModelFactory
 import com.example.helderrocha.testeparaserinvolvido.R
 
 import com.example.helderrocha.testeparaserinvolvido.R.*
+import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.home_activity.*
@@ -39,11 +41,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun partItemClicked(movie : Movie) {
-        Toast.makeText(this, "Clicked: ${movie.title}", Toast.LENGTH_LONG).show()
-
-//        // Launch second activity, pass part ID as string parameter
-//        val showDetailActivityIntent = Intent(this, PartDetailActivity::class.java)
-//        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, partItem.id.toString())
-//        startActivity(showDetailActivityIntent)
+        val showDetailActivityIntent = Intent(this, DetailsActivity::class.java)
+        showDetailActivityIntent.putExtra("movie_selected", movie.id.toString())
+        startActivity(showDetailActivityIntent)
     }
 }

@@ -44,6 +44,8 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                     }
                 }, {
                     value = listOf()
+
+                    Cache.cacheMovies(value!!)
                 })
     }
 }
