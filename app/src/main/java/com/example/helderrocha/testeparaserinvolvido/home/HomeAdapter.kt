@@ -11,17 +11,17 @@ import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.MovieImageUrlBuilder
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-class HomeAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter (val movies: List<Movie>, val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val movieImageUrlBuilder = MovieImageUrlBuilder()
 
-        fun bind(movie: Movie) {
+        fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
             itemView.titleTextView.text = movie.title
             itemView.genresTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
             itemView.releaseDateTextView.text = movie.releaseDate
-
+            itemView.setOnClickListener { clickListener(movie)}
             Glide.with(itemView)
                     .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
                     .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
@@ -36,5 +36,7 @@ class HomeAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<HomeAd
 
     override fun getItemCount() = movies.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(movies[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+        (holder as ViewHolder).bind(movies[position], clickListener)
+    }
 }

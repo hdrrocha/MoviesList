@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.arctouch.codechallenge.home.HomeAdapter
 import com.arctouch.codechallenge.home.MoviesViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
@@ -33,7 +34,16 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private val updateList: (List<Movie>?) -> Unit = {
-        recyclerView.adapter = HomeAdapter(it ?: listOf())
+        recyclerView.adapter = HomeAdapter(it ?: listOf(), { movie : Movie -> partItemClicked(movie) })
         progressBar.visibility = View.GONE
+    }
+
+    private fun partItemClicked(movie : Movie) {
+        Toast.makeText(this, "Clicked: ${movie.title}", Toast.LENGTH_LONG).show()
+
+//        // Launch second activity, pass part ID as string parameter
+//        val showDetailActivityIntent = Intent(this, PartDetailActivity::class.java)
+//        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, partItem.id.toString())
+//        startActivity(showDetailActivityIntent)
     }
 }
