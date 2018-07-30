@@ -2,6 +2,7 @@ package com.example.helderrocha.testeparaserinvolvido
 
 import android.content.Context
 import com.example.helderrocha.testeparaserinvolvido.api.NetworkModule
+import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
 import com.example.helderrocha.testeparaserinvolvido.home.HomeActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -21,6 +22,8 @@ class AppModule
 abstract class AndroidInjectorsModule {
   @ContributesAndroidInjector
   abstract fun homeActivity(): HomeActivity
+  @ContributesAndroidInjector
+  abstract fun detailsActivity(): DetailsActivity
 }
 
 @Singleton

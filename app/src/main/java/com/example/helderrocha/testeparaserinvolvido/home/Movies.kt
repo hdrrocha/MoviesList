@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.home
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.example.helderrocha.testeparaserinvolvido.SchedulerProvider
@@ -48,4 +49,29 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                     Cache.cacheMovies(value!!)
                 })
     }
+}
+
+class MovieViewModel @Inject constructor( val api: ApiClient, private val schedulers: SchedulerProvider) : ViewModel() {
+
+    val _movie = MutableLiveData<Movie>()
+    val movie: LiveData<Movie> = _movie
+
+    fun getMovieById(id: Long) {
+        api.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe({movie})
+    }
+
+
+}
+
+class MovieLiveData(private val api: ApiClient, private val schedulers: SchedulerProvider) : LiveData<Movie>() {
+    protected fun loadData(id: Long) {
+        api.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe({value})
+    }
+
 }

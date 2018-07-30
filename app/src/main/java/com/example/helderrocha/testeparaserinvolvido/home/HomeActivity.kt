@@ -42,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun partItemClicked(movie : Movie) {
         val showDetailActivityIntent = Intent(this, DetailsActivity::class.java)
-        showDetailActivityIntent.putExtra("movie_selected", movie.id.toString())
+        showDetailActivityIntent.putExtra("movie_selected", movie.id)
         startActivity(showDetailActivityIntent)
     }
 }

@@ -30,4 +30,8 @@ class ApiClient @Inject constructor(
     ): Observable<Movie> {
         return tmdbApi.movie(id, apiKey, language)
     }
+
+    fun getMovieById(id: Long): Long {
+        return id
+    }
 }
