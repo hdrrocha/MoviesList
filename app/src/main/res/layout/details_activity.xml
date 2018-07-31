@@ -5,54 +5,94 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movie"
-            type="com.example.helderrocha.testeparaserinvolvido.model.Movie"
-            />
+            type="com.example.helderrocha.testeparaserinvolvido.model.Movie" />
     </data>
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            tools:context="com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity">
 
-
-            <android.support.constraint.ConstraintLayout
+            <com.santalu.diagonalimageview.DiagonalImageView
+                android:id="@+id/imageBackground"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity">
+                android:layout_height="225dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/movie_loading"
+                app:di_borderColor="@color/colorAccent"
+                app:di_borderEnabled="true"
+                app:di_direction="left"
+                app:di_overlap="56dp"
+                app:di_position="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-                <!--<com.santalu.diagonalimageview.DiagonalImageView-->
-                    <!--android:id="@+id/imageBackground"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="225dp"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:src="@drawable/ic_image_placeholder"-->
-                    <!--app:di_borderColor="@color/colorAccent"-->
-                    <!--app:di_borderEnabled="true"-->
-                    <!--app:di_borderSize="@dimen/border_size"-->
-                    <!--app:di_direction="left"-->
-                    <!--app:di_overlap="56dp"-->
-                    <!--app:di_position="bottom"-->
-                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--app:layout_constraintHorizontal_bias="0.0"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toTopOf="parent"-->
-                    <!--app:layout_constraintVertical_bias="1.0" />-->
+            <ImageView
+                android:id="@+id/imagCover"
+                android:layout_width="114dp"
+                android:layout_height="142dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/movie_loading"
+                app:layout_constraintBottom_toBottomOf="@+id/imageBackground"
+                app:layout_constraintTop_toBottomOf="@+id/imageBackground"
+                tools:layout_editor_absoluteX="16dp"
+                tools:ignore="MissingConstraints" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:id="@+id/imageBackground"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:text="@{movie.title}"
-                    android:layout_height="match_parent" />
-            </android.support.constraint.ConstraintLayout>
-        </ScrollView>
+            <TextView
+                android:id="@+id/titleMovie"
+                android:layout_width="281dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="8dp"
+                android:text="@{movie.title}"
+                android:textColor="#5E5E5E"
+                android:textStyle="bold"
+                android:textSize="22dp"
+                app:layout_constraintStart_toEndOf="@+id/imagCover"
+                app:layout_constraintTop_toBottomOf="@+id/imageBackground" />
+
+
+            <!--android:text="@{movie.releaseDate}"-->
+            <TextView
+                android:id="@+id/yearMovie"
+                android:layout_width="230dp"
+                android:layout_height="32dp"
+                android:text="@{movie.releaseDate}"
+                android:textColor="#bcaeae"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/titleMovie"
+                app:layout_constraintTop_toBottomOf="@+id/titleMovie" />
+
+
+            <TextView
+                android:id="@+id/genresDetaisTextView"
+                android:layout_width="146dp"
+                android:layout_height="23dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:textAlignment="textEnd"
+                android:textColor="#bcaeae"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.965"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yearMovie" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
 
 </layout>

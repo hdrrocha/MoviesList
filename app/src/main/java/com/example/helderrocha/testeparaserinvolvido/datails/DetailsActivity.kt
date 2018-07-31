@@ -25,6 +25,7 @@ import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.details_activity.*
 import kotlinx.android.synthetic.main.home_activity.*
+import kotlinx.android.synthetic.main.movie_item.*
 import kotlinx.android.synthetic.main.movie_item.view.*
 import javax.inject.Inject
 
@@ -38,7 +39,6 @@ class DetailsActivity : AppCompatActivity() {
 
 
     private val movieObserver = Observer<Movie>(::onMovieFetched)
-    private  lateinit var img : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -49,14 +49,13 @@ class DetailsActivity : AppCompatActivity() {
         val data: Bundle = intent.extras
         var movieId = data.getInt("movie_selected")
 
-        img = findViewById<View>(R.id.imageBackground) as ImageView
         movieViewModel.movie.observe(this, movieObserver)
         movieViewModel.getMovieById(movieId.toLong())
 
     }
 
     private fun onMovieFetched(movie: Movie?) {
-        Toast.makeText(this, "Movie: ${movie?.title}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Movie: ${movie?.backdropPath}", Toast.LENGTH_LONG).show()
 
         val binding: DetailsActivityBinding =  DataBindingUtil.setContentView(this, R.layout.details_activity)
 
@@ -64,13 +63,22 @@ class DetailsActivity : AppCompatActivity() {
         val movieImageUrlBuilder = MovieImageUrlBuilder()
         binding.setVariable(BR.movie, movie)
         if (movie != null) {
-            Glide.with(img)
+//            titleTextView.text = movie.title
+//            yearMovie.text = movie.releaseDate
+            genresDetaisTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
+
+            Glide.with(this)
                     .load(movie.backdropPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
                     .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-                    .into(img.posterImageView)
+                    .into(imageBackground)
+
+            Glide.with(this)
+                    .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
+                    .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+                    .into(imagCover)
         }
 
-        binding.executePendingBindings()
+//        binding.executePendingBindings()
     }
 
 }

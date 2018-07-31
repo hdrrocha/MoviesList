@@ -1,6 +1,18 @@
 package com.example.helderrocha.testeparaserinvolvido.model
 
+import android.databinding.BindingAdapter
+import android.databinding.BindingMethod
+import android.databinding.BindingMethods
+import android.widget.ImageView
 import com.squareup.moshi.Json
+import android.databinding.ObservableField
+import android.graphics.drawable.Drawable
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.helderrocha.testeparaserinvolvido.R
+import com.example.helderrocha.testeparaserinvolvido.util.MovieImageUrlBuilder
+import kotlinx.android.synthetic.main.movie_item.view.*
+
 
 data class GenreResponse(val genres: List<Genre>)
 
