@@ -17,10 +17,36 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp">
 
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity">
+
+                <!--<com.santalu.diagonalimageview.DiagonalImageView-->
+                    <!--android:id="@+id/imageBackground"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="225dp"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:src="@drawable/ic_image_placeholder"-->
+                    <!--app:di_borderColor="@color/colorAccent"-->
+                    <!--app:di_borderEnabled="true"-->
+                    <!--app:di_borderSize="@dimen/border_size"-->
+                    <!--app:di_direction="left"-->
+                    <!--app:di_overlap="56dp"-->
+                    <!--app:di_position="bottom"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintHorizontal_bias="0.0"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintVertical_bias="1.0" />-->
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:id="@+id/imageBackground"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:text="@{movie.title}"
