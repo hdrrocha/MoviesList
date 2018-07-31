@@ -48,7 +48,6 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                     }
                 }, {
                     value = listOf()
-
                     Cache.cacheMovies(value!!)
                 })
     }
@@ -65,6 +64,4 @@ class MovieViewModel @Inject constructor( val api: ApiClient, private val schedu
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ _movie.value = it}, { /* error */ })
     }
-}
-
 }

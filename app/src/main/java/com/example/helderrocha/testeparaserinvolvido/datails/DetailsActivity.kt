@@ -2,6 +2,7 @@ package com.example.helderrocha.testeparaserinvolvido.datails
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,9 +10,11 @@ import android.widget.Toast
 import com.arctouch.codechallenge.home.HomeAdapter
 import com.arctouch.codechallenge.home.MovieViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
+import com.example.helderrocha.testeparaserinvolvido.BR
 
 
 import com.example.helderrocha.testeparaserinvolvido.R
+import com.example.helderrocha.testeparaserinvolvido.databinding.DetailsActivityBinding
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -45,6 +48,12 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun onMovieFetched(movie: Movie?) {
         Toast.makeText(this, "Movie: ${movie?.title}", Toast.LENGTH_LONG).show()
+
+        val binding: DetailsActivityBinding =  DataBindingUtil.setContentView(this, R.layout.details_activity)
+
+        val _movie = movie
+        binding.setVariable(BR.movie, movie)
+        binding.executePendingBindings()
     }
 
 }
