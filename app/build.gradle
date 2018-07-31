@@ -86,4 +86,5 @@ dependencies {
     implementation 'com.github.santalu:diagonal-imageview:1.0.6'
     compile 'com.vicmikhailau:MaskedEditText:2.0.4'
 
+
 }
