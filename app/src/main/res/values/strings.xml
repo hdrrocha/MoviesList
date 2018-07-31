@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">TesteParaSerInvolvido</string>
-    <string name="format">%1$td/%1$tm/%1$tY</string>
+    <string name="app_name">Movies Involved</string>
 </resources>
