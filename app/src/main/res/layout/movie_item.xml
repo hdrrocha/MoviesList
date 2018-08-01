@@ -23,7 +23,7 @@
             android:id="@+id/posterImageView"
             android:layout_width="136dp"
             android:layout_height="91dp"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             app:di_borderColor="#FF5722"
             app:di_borderEnabled="false"

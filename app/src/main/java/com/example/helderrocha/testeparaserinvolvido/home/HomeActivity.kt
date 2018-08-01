@@ -7,7 +7,10 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.arctouch.codechallenge.home.HomeAdapter
 import com.arctouch.codechallenge.home.MoviesViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
@@ -32,7 +35,12 @@ class HomeActivity : AppCompatActivity() {
     var layoutManager = LinearLayoutManager(this)
     protected val moviesObserver = Observer<List<Movie>>(::onMoviesFetched)
 
-    
+    var totalItemCount: Int = 0
+    var visibleItemCount: Int = 0
+    var pastVisibleItemCount: Int = 0
+    var loading: Boolean = false
+    var page: Long = 1L
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -47,13 +55,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private val updateList: (List<Movie>?) -> Unit = {
+        loading = true
         setUpdateAdapter((it as ArrayList<Movie>?)!!)
 
     }
 
     private fun onMoviesFetched(newMovies: List<Movie>?) {
         if (newMovies != null) {
+            loading = true
             setUpdateAdapter(newMovies)
+        } else {
+            Toast.makeText(this, "There is no new movie", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -76,10 +88,34 @@ class HomeActivity : AppCompatActivity() {
             listMoview.addAll(movies!!)
             adapter.notifyDataSetChanged()
             recyclerView.adapter.notifyDataSetChanged()
+            recyclerView.scrollToPosition(currentPosition)
             progressBar.visibility = View.GONE
 
         }
 
-        recyclerView.addOnScrollListener(InfiniteScrollListener({ moviesViewModel.getMoreMovies() }, layoutManager))
+        recyclerView.addOnScrollListener(object  : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if(dy > 0) {
+                    visibleItemCount = layoutManager.childCount
+                    totalItemCount = layoutManager.itemCount
+                    pastVisibleItemCount =(recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    Log.i("Helder", "Soma" + (visibleItemCount+ pastVisibleItemCount).toString() )
+                    Log.i("Helder", "Soma" + totalItemCount.toString() )
+                    if(loading){
+                        if((visibleItemCount+ pastVisibleItemCount) >= totalItemCount) {
+                            progressBar.visibility = View.VISIBLE
+                            loading = false
+                            page++
+                            moviesViewModel.getMoreMovies(page++)
+                        }
+                    }
+                }
+
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
     }
 }
