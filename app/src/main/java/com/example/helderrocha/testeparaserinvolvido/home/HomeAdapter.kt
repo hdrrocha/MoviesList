@@ -11,11 +11,11 @@ import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.MovieImageUrlBuilder
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-class HomeAdapter (val movies: List<Movie>, val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter (val movies: ArrayList<Movie>, val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val movieImageUrlBuilder = MovieImageUrlBuilder()
+
 
         fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
             itemView.titleTextView.text = movie.title
@@ -38,5 +38,8 @@ class HomeAdapter (val movies: List<Movie>, val clickListener: (Movie) -> Unit) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
         (holder as ViewHolder).bind(movies[position], clickListener)
+    }
+    fun addAll(newMovies: List<Movie>){
+        this.movies.addAll(newMovies)
     }
 }
