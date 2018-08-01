@@ -36,6 +36,7 @@ class HomeActivity : AppCompatActivity() {
     private val moviesViewModel by lazy {
         ViewModelProviders.of(this, moviesVMFactory)[MoviesViewModel::class.java]
     }
+
     private var itensList: Int = 0
     private lateinit var adapter: HomeAdapter
     protected var listMovies: ArrayList<Movie> = ArrayList()
@@ -81,11 +82,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun onMoviesFetched(newMovies: List<Movie>?) {
         if (newMovies != null) {
-            listMovies.clear()
             listMovies.addAll(newMovies)
             adapter.addAll(listMovies)
             adapter.notifyDataSetChanged()
-            itensList = recyclerView.adapter.itemCount
         }
 
     }
