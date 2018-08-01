@@ -1,9 +1,8 @@
-package com.example.helderrocha.testeparaserinvolvido.home
+package com.example.helderrocha.testeparaserinvolvido.home_c
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -11,17 +10,15 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.arctouch.codechallenge.home.HomeAdapter
 import com.arctouch.codechallenge.home.MoviesViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
 import com.example.helderrocha.testeparaserinvolvido.R
 import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
+import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapter
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
-import com.example.helderrocha.testeparaserinvolvido.util.InfiniteScrollListener
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.home_activity.*
 import javax.inject.Inject
-
 class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var moviesVMFactory: ViewModelFactory<MoviesViewModel>
@@ -30,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
         ViewModelProviders.of(this, moviesVMFactory)[MoviesViewModel::class.java]
     }
 
-    private lateinit var adapter: HomeAdapter
+    private lateinit var adapter: MovieAdapter
     var listMoview: MutableList<Movie> = mutableListOf()
     var layoutManager = LinearLayoutManager(this)
     protected val moviesObserver = Observer<List<Movie>>(::onMoviesFetched)
@@ -78,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
     private  fun setUpdateAdapter(movies: List<Movie>){
         if(listMoview.size == 0){
             listMoview = movies as  MutableList<Movie>
-            adapter =  HomeAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
+            adapter =  MovieAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
             recyclerView.adapter = adapter
             recyclerView.adapter.notifyDataSetChanged()
             progressBar.visibility = View.GONE
@@ -93,7 +90,7 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        recyclerView.addOnScrollListener(object  : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 if(dy > 0) {
                     visibleItemCount = layoutManager.childCount

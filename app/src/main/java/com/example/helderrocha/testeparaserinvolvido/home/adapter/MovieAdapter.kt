@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.home
+package com.example.helderrocha.testeparaserinvolvido.home.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.MovieImageUrlBuilder
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-class HomeAdapter (var movies: List<Movie>, val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class MovieAdapter (var movies: List<Movie>, val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val movieImageUrlBuilder = MovieImageUrlBuilder()
