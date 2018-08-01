@@ -23,16 +23,13 @@ class ViewModelFactory<VM : ViewModel> @Inject constructor(private val viewModel
 
 class MoviesViewModel @Inject constructor(val api: ApiClient, private val schedulers: SchedulerProvider) : ViewModel() {
     private val moviesData = MoviesLiveData(api, schedulers)
-
     fun getData(): LiveData<List<Movie>> = moviesData
     var page = 1L
-
     val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
 
     fun getMoreMovies() {
-        page++
-        Log.i("Helder", "ViewModel page" + page)
+        page+=1
         api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .doOnSuccess {
                     Cache.cacheGenres(it.genres)
@@ -51,12 +48,9 @@ class MoviesViewModel @Inject constructor(val api: ApiClient, private val schedu
                     _movies.value = listOf()
                 })
     }
-
-
 }
 
 class MoviesLiveData(private val api: ApiClient, private val schedulers: SchedulerProvider) : LiveData<List<Movie>>() {
-    var page = 1L
 
     init {
         loadData()
@@ -69,7 +63,7 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                 }
                 .flatMapObservable {
 
-                    api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION)
+                    api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
                 }
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
