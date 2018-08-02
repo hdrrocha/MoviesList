@@ -7,15 +7,16 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.arctouch.codechallenge.home.MoviesViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
 import com.example.helderrocha.testeparaserinvolvido.R
+import com.example.helderrocha.testeparaserinvolvido.data.Cache
 import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
 import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapter
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
+import com.example.helderrocha.testeparaserinvolvido.util.ConnectUtil
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.home_activity.*
 import javax.inject.Inject
@@ -46,14 +47,27 @@ class HomeActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        moviesViewModel.getData().observe(this, Observer(updateList))
-        moviesViewModel.movies.observe(this, moviesObserver)
+        val connection = ConnectUtil(this.baseContext)
+        if(connection.isConnection()){
+            moviesViewModel.getData().observe(this, Observer(updateList))
+            moviesViewModel.movies.observe(this, moviesObserver)
+        } else {
+            setUpdateAdapter(Cache.movies)
+        }
+
 
     }
 
     private val updateList: (List<Movie>?) -> Unit = {
         loading = true
-        setUpdateAdapter((it as ArrayList<Movie>?)!!)
+        val  listMovieLocal: List<Movie>
+        listMovieLocal = (it as ArrayList<Movie>)
+        if (listMovieLocal.isEmpty()){
+            setUpdateAdapter(Cache.movies)
+        } else {
+            setUpdateAdapter(listMovieLocal)
+        }
+
 
     }
 
@@ -72,10 +86,10 @@ class HomeActivity : AppCompatActivity() {
         startActivity(showDetailActivityIntent)
     }
 
-    private  fun setUpdateAdapter(movies: List<Movie>){
+    private fun setUpdateAdapter(movies: List<Movie>){
         if(listMoview.size == 0){
-            listMoview = movies as  MutableList<Movie>
-            adapter =  MovieAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
+            listMoview = movies as MutableList<Movie>
+            adapter = MovieAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
             recyclerView.adapter = adapter
             recyclerView.adapter.notifyDataSetChanged()
             progressBar.visibility = View.GONE
@@ -96,8 +110,6 @@ class HomeActivity : AppCompatActivity() {
                     visibleItemCount = layoutManager.childCount
                     totalItemCount = layoutManager.itemCount
                     pastVisibleItemCount =(recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    Log.i("Helder", "Soma" + (visibleItemCount+ pastVisibleItemCount).toString() )
-                    Log.i("Helder", "Soma" + totalItemCount.toString() )
                     if(loading){
                         if((visibleItemCount+ pastVisibleItemCount) >= totalItemCount) {
                             progressBar.visibility = View.VISIBLE
@@ -115,4 +127,5 @@ class HomeActivity : AppCompatActivity() {
             }
         })
     }
+
 }

@@ -24,12 +24,10 @@ class ViewModelFactory<VM : ViewModel> @Inject constructor(private val viewModel
 class MoviesViewModel @Inject constructor(val api: ApiClient, private val schedulers: SchedulerProvider) : ViewModel() {
     private val moviesData = MoviesLiveData(api, schedulers)
     fun getData(): LiveData<List<Movie>> = moviesData
-//    var page = 1L
     val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
 
     fun getMoreMovies(page: Long) {
-//        page++
         api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .doOnSuccess {
                     Cache.cacheGenres(it.genres)
@@ -44,6 +42,7 @@ class MoviesViewModel @Inject constructor(val api: ApiClient, private val schedu
                     _movies.value = it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     }
+                    Cache.cacheMovies(_movies.value!!)
                 }, {
                     _movies.value = listOf()
                 })
@@ -71,9 +70,9 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                     value = it.results.map { movie ->
                         movie.copy(genres = Cache.genres.filter { movie.genreIds?.contains(it.id) == true })
                     }
+                    Cache.cacheMovies(value!!)
                 }, {
                     value = listOf()
-                    Cache.cacheMovies(value!!)
                 })
     }
 }
@@ -87,6 +86,6 @@ class MovieViewModel @Inject constructor( val api: ApiClient, private val schedu
         api.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ _movie.value = it}, { /* error */ })
+                .subscribe({ _movie.value = it}, { Cache.movies})
     }
 }
