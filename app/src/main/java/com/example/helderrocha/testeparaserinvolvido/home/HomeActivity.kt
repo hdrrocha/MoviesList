@@ -20,6 +20,8 @@ import com.example.helderrocha.testeparaserinvolvido.util.ConnectUtil
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.home_activity.*
 import javax.inject.Inject
+
+
 class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var moviesVMFactory: ViewModelFactory<MoviesViewModel>

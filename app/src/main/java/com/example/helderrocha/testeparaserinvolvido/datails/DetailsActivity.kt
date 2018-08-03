@@ -68,7 +68,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+       // super.onBackPressed()
         finish()
     }
 }
