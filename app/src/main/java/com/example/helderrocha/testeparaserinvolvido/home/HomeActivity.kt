@@ -13,13 +13,20 @@ import com.arctouch.codechallenge.home.MoviesViewModel
 import com.arctouch.codechallenge.home.ViewModelFactory
 import com.example.helderrocha.testeparaserinvolvido.R
 import com.example.helderrocha.testeparaserinvolvido.data.Cache
+import com.example.helderrocha.testeparaserinvolvido.data.DatabaseHelper
+import com.example.helderrocha.testeparaserinvolvido.data.MovieDB
 import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
 import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapter
+import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapterOff
+import com.example.helderrocha.testeparaserinvolvido.model.Genre
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.ConnectUtil
 import dagger.android.AndroidInjection
+import hinl.kotlin.database.helper.Schema
 import kotlinx.android.synthetic.main.home_activity.*
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 class HomeActivity : AppCompatActivity() {
@@ -31,6 +38,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var adapter: MovieAdapter
+    private lateinit var adapterOff: MovieAdapterOff
     var listMoview: MutableList<Movie> = mutableListOf()
     var layoutManager = LinearLayoutManager(this)
     protected val moviesObserver = Observer<List<Movie>>(::onMoviesFetched)
@@ -40,43 +48,45 @@ class HomeActivity : AppCompatActivity() {
     var pastVisibleItemCount: Int = 0
     var loading: Boolean = false
     var page: Long = 1L
-
+    var dataBase: DatabaseHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
 
+        val connection = ConnectUtil(this.baseContext)
+        dbConfig()
+
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        val connection = ConnectUtil(this.baseContext)
+
         if(connection.isConnection()){
             moviesViewModel.getData().observe(this, Observer(updateList))
             moviesViewModel.movies.observe(this, moviesObserver)
         } else {
-            setUpdateAdapter(Cache.movies)
+            setUpdateAdapter(Cache.movies, false)
         }
 
 
+    }
+
+    private fun dbConfig() {
+        dataBase = DatabaseHelper(this@HomeActivity)
+        createTable(dataBase!!)
     }
 
     private val updateList: (List<Movie>?) -> Unit = {
         loading = true
         val  listMovieLocal: List<Movie>
         listMovieLocal = (it as ArrayList<Movie>)
-        if (listMovieLocal.isEmpty()){
-            setUpdateAdapter(Cache.movies)
-        } else {
-            setUpdateAdapter(listMovieLocal)
-        }
-
-
+        setUpdateAdapter(listMovieLocal, true)
     }
 
     private fun onMoviesFetched(newMovies: List<Movie>?) {
         if (newMovies != null) {
             loading = true
-            setUpdateAdapter(newMovies)
+            setUpdateAdapter(newMovies, true)
         } else {
             Toast.makeText(this, "There is no new movie", Toast.LENGTH_SHORT).show()
         }
@@ -88,46 +98,76 @@ class HomeActivity : AppCompatActivity() {
         startActivity(showDetailActivityIntent)
     }
 
-    private fun setUpdateAdapter(movies: List<Movie>){
-        if(listMoview.size == 0){
-            listMoview = movies as MutableList<Movie>
-            adapter = MovieAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
-            recyclerView.adapter = adapter
-            recyclerView.adapter.notifyDataSetChanged()
-            progressBar.visibility = View.GONE
+    private fun setUpdateAdapter(movies: List<Movie>, isConnected: Boolean){
+        if(isConnected){
 
-        } else {
-            var currentPosition =(recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-            listMoview.addAll(movies!!)
-            adapter.notifyDataSetChanged()
-            recyclerView.adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(currentPosition)
-            progressBar.visibility = View.GONE
+            movies.forEach { movie ->
+                insertContent(this.dataBase!!, movie)
+            }
 
-        }
+            if(listMoview.size == 0){
+                listMoview = movies as MutableList<Movie>
+                adapter = MovieAdapter(listMoview, { movie: Movie -> partItemClicked(movie) } )
+                recyclerView.adapter = adapter
+                recyclerView.adapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if(dy > 0) {
-                    visibleItemCount = layoutManager.childCount
-                    totalItemCount = layoutManager.itemCount
-                    pastVisibleItemCount =(recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if(loading){
-                        if((visibleItemCount+ pastVisibleItemCount) >= totalItemCount) {
-                            progressBar.visibility = View.VISIBLE
-                            loading = false
-                            page++
-                            moviesViewModel.getMoreMovies(page++)
+            } else {
+                var currentPosition =(recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                listMoview.addAll(movies!!)
+                adapter.notifyDataSetChanged()
+                recyclerView.adapter.notifyDataSetChanged()
+                recyclerView.scrollToPosition(currentPosition)
+                progressBar.visibility = View.GONE
+
+            }
+
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                    if(dy > 0) {
+                        visibleItemCount = layoutManager.childCount
+                        totalItemCount = layoutManager.itemCount
+                        pastVisibleItemCount =(recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                        if(loading){
+                            if((visibleItemCount+ pastVisibleItemCount) >= totalItemCount) {
+                                progressBar.visibility = View.VISIBLE
+                                loading = false
+                                page++
+                                moviesViewModel.getMoreMovies(page++)
+                            }
                         }
                     }
+
                 }
 
-            }
+                override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                }
+            })
+        } else {
+            val listOfExample = readContent(this.dataBase!!)
+            listMoview = (listOfExample as List<Movie>).toMutableList()
+            adapterOff = MovieAdapterOff(listOfExample, { movie: Movie -> partItemClicked(movie) } )
+            recyclerView.adapter = adapterOff
+            recyclerView.adapter.notifyDataSetChanged()
+            progressBar.visibility = View.GONE
+            Toast.makeText(this, "You must be connected to the internet to have full access to the movie list", Toast.LENGTH_SHORT).show()
+        }
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
     }
+
+
+
+    fun createTable(database: DatabaseHelper) {
+        database.createTable(MovieDB::class)
+    }
+
+    fun insertContent(database: DatabaseHelper, movie: Movie) {
+//        , genres = movie.genres,genre_ids = movie.genreIds
+        val movie = MovieDB(title = movie.title, overview = movie.overview, poster_path = movie.posterPath,backdrop_path = movie.backdropPath, release_date = movie.releaseDate)
+        database.insert(movie)
+    }
+
+    fun readContent(database: DatabaseHelper): List<MovieDB>? = database.get(MovieDB::class)
 
 }
