@@ -9,9 +9,18 @@ To run the project I recommend that you clone this repository, then open it in A
 >>Any questions, I'm willing to help.
 
 # Prévia Visual/Visual preview
+>Detalhes do filme
+>Details Movie
 ![screen shot 2018-08-03 at 00 46 37](https://user-images.githubusercontent.com/18127700/43623590-6484c630-96b8-11e8-95ce-d1c379d58a0c.png)
 
-![screen shot 2018-08-03 at 00 46 07](https://user-images.githubusercontent.com/18127700/43623591-64a8a6fe-96b8-11e8-9004-822facb412bd.png)
+>Listagem Online
+>Listing when online
+![captura de tela 2018-08-03 as 16 37 27](https://user-images.githubusercontent.com/18127700/43662990-397f1fd6-973e-11e8-9787-84f476d042ff.png)
 
+>Listagem Offline
+>Listing when offline
+![list_off](https://user-images.githubusercontent.com/18127700/43662984-2ef0c90c-973e-11e8-8019-a695f7736b9a.png)
 
-![ingiphy](https://user-images.githubusercontent.com/18127700/43623611-7e2d0afc-96b8-11e8-8e12-44902d768ca4.gif)
+>Gif listagem de filmes e detalhes
+>Gif listing of movies and details
+![ago-03-2018 16-40-42](https://user-images.githubusercontent.com/18127700/43662473-6bfd3e2c-973c-11e8-834a-d2f8844eac7b.gif)
