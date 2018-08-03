@@ -18,5 +18,4 @@ class DatabaseHelper(context: Context): SQLiteDatabaseHelper(
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
     }
-
 }

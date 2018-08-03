@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.arctouch.codechallenge.home.MoviesViewModel
@@ -19,13 +18,10 @@ import com.example.helderrocha.testeparaserinvolvido.data.MovieDB
 import com.example.helderrocha.testeparaserinvolvido.datails.DetailsActivity
 import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapter
 import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapterOff
-import com.example.helderrocha.testeparaserinvolvido.model.Genre
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.ConnectUtil
 import dagger.android.AndroidInjection
-import hinl.kotlin.database.helper.Schema
 import kotlinx.android.synthetic.main.home_activity.*
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -55,21 +51,24 @@ class HomeActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
-
-        val connection = ConnectUtil(this.baseContext)
         dbConfig()
+        recoverComponents()
+    }
 
+    private fun recoverComponents() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+        setEventComponents()
+    }
 
+    private fun setEventComponents() {
+        val connection = ConnectUtil(this.baseContext)
         if(connection.isConnection()){
             moviesViewModel.getData().observe(this, Observer(updateList))
             moviesViewModel.movies.observe(this, moviesObserver)
         } else {
             setUpdateAdapter(Cache.movies, false)
         }
-
-
     }
 
     private fun dbConfig() {
@@ -164,7 +163,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun insertContent(database: DatabaseHelper, movie: Movie) {
-//        , genres = movie.genres,genre_ids = movie.genreIds
         val genres = StringBuilder()
         movie.genres!!.forEach { genre ->
            genres.append(genre.name+", ")

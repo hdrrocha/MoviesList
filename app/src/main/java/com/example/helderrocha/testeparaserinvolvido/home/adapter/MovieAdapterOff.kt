@@ -21,7 +21,6 @@ class MovieAdapterOff (var movies: List<MovieDB>, val clickListener: (Movie) -> 
             itemView.titleTextView.text = movie.title
             itemView.genresTextView.text = movie.genres
             itemView.releaseDateTextView.text = movie.release_date
-//            itemView.setOnClickListener { clickListener(movie)}
             Glide.with(itemView)
                     .load(movie.poster_path?.let { movieImageUrlBuilder.buildPosterUrl(it) })
                     .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))

@@ -4,11 +4,11 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import android.util.Log
 import com.example.helderrocha.testeparaserinvolvido.SchedulerProvider
 import com.example.helderrocha.testeparaserinvolvido.api.ApiClient
 import com.example.helderrocha.testeparaserinvolvido.api.TmdbApi
 import com.example.helderrocha.testeparaserinvolvido.data.Cache
+import com.example.helderrocha.testeparaserinvolvido.data.DatabaseHelper
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import dagger.Lazy
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +23,7 @@ class ViewModelFactory<VM : ViewModel> @Inject constructor(private val viewModel
 
 class MoviesViewModel @Inject constructor(val api: ApiClient, private val schedulers: SchedulerProvider) : ViewModel() {
     private val moviesData = MoviesLiveData(api, schedulers)
+    var dataBase: DatabaseHelper? = null
     fun getData(): LiveData<List<Movie>> = moviesData
     val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> = _movies
@@ -75,6 +76,7 @@ class MoviesLiveData(private val api: ApiClient, private val schedulers: Schedul
                     value = listOf()
                 })
     }
+
 }
 
 class MovieViewModel @Inject constructor( val api: ApiClient, private val schedulers: SchedulerProvider) : ViewModel() {

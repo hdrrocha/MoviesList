@@ -12,10 +12,9 @@ data class MovieDB(
         @Schema(field = "title") var title: String?,
         @Schema(field = "overview") var overview: String?,
         @Schema(field = "genres") var genres: String,
-//        @Schema(field = "genre_ids") var genre_ids: List<Int>?,
         @Schema(field = "poster_path") var poster_path: String?,
         @Schema(field = "backdrop_path") var backdrop_path: String?,
-        @Schema(field = "release_date") var release_date:  String? = null) {
+        @Schema(field = "release_date") var release_date: String? = null) {
 }
 @Database(tableName = "GenreTB")
 data class GenreMovie(
