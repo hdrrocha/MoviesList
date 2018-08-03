@@ -79,6 +79,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //to beautify
     implementation 'com.github.santalu:diagonal-imageview:1.0.6'
+    //facile database
     implementation 'com.hinl:kotlindatabasehelper:1.0.0'
 
 }

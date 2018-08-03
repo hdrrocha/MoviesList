@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.helderrocha.testeparaserinvolvido.R
 import com.example.helderrocha.testeparaserinvolvido.data.MovieDB
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
@@ -17,13 +19,13 @@ class MovieAdapterOff (var movies: List<MovieDB>, val clickListener: (Movie) -> 
 
         fun bind(movie: MovieDB, clickListener: (Movie) -> Unit) {
             itemView.titleTextView.text = movie.title
-//            itemView.genresTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
-//            itemView.releaseDateTextView.text = movie.releaseDate
+            itemView.genresTextView.text = movie.genres
+            itemView.releaseDateTextView.text = movie.release_date
 //            itemView.setOnClickListener { clickListener(movie)}
-//            Glide.with(itemView)
-//                    .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
-//                    .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
-//                    .into(itemView.posterImageView)
+            Glide.with(itemView)
+                    .load(movie.poster_path?.let { movieImageUrlBuilder.buildPosterUrl(it) })
+                    .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+                    .into(itemView.posterImageView)
         }
     }
 
@@ -38,3 +40,4 @@ class MovieAdapterOff (var movies: List<MovieDB>, val clickListener: (Movie) -> 
         (holder as ViewHolder).bind(movies[position], clickListener)
     }
 }
+

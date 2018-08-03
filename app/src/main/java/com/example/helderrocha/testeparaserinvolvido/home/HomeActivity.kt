@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.arctouch.codechallenge.home.MoviesViewModel
@@ -164,7 +165,14 @@ class HomeActivity : AppCompatActivity() {
 
     fun insertContent(database: DatabaseHelper, movie: Movie) {
 //        , genres = movie.genres,genre_ids = movie.genreIds
-        val movie = MovieDB(title = movie.title, overview = movie.overview, poster_path = movie.posterPath,backdrop_path = movie.backdropPath, release_date = movie.releaseDate)
+        val genres = StringBuilder()
+        movie.genres!!.forEach { genre ->
+           genres.append(genre.name+", ")
+        }
+
+        var stringG: String
+        stringG=  genres.toString()
+        val movie = MovieDB(title = movie.title, overview = movie.overview,genres = stringG, poster_path = movie.posterPath,backdrop_path = movie.backdropPath, release_date = movie.releaseDate)
         database.insert(movie)
     }
 
