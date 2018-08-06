@@ -1,7 +1,7 @@
 # TestToBeInvolved
 
 # Intruções
-Para executar o projeto eu recomendo que você clone este repositório, abra-o no Android Studio (eu mantenho o meu atualizado), sincronize build.gradle e execute.
+Para executar o projeto eu recomendo que você clone este repositório, abra-o no Android Studio (eu mantenho meu atualizado), sincronize build.gradle e execute.
 >>Qualquer dúvida me chame pois estou disposto a ajudar 
 
 # English Instructions

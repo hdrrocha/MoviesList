@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="110dp"
     android:layout_marginBottom="4dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginStart="16dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
     android:clickable="true"
     android:focusable="true"
@@ -14,17 +14,22 @@
     app:cardCornerRadius="0dp">
 
     <RelativeLayout
+        android:background="#FFFF"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.santalu.diagonalimageview.DiagonalImageView
             android:id="@+id/posterImageView"
-            android:layout_width="60dp"
+            android:layout_width="136dp"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:importantForAccessibility="no"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_image_placeholder" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            app:di_borderColor="#FF5722"
+            app:di_borderEnabled="false"
+            app:di_direction="bottom"
+            app:di_overlap="56dp"
+            app:di_position="right" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -36,18 +41,20 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="16sp"
+            android:textColor="#666666"
             android:textStyle="bold"
             tools:text="Titanic" />
 
         <TextView
             android:id="@+id/genresTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="223dp"
+            android:layout_height="40dp"
             android:layout_below="@id/titleTextView"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@id/posterImageView"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textColor="#ADADAD"
             android:textSize="14sp"
             tools:text="Drama, Romance, Thriller" />
 
@@ -60,6 +67,7 @@
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@id/posterImageView"
             android:textSize="12sp"
+            android:textColor="#ADADAD"
             android:textStyle="italic"
             tools:text="19/12/1997" />
 
