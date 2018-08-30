@@ -1,14 +1,10 @@
 # TestToBeInvolved
 
-# Intruções
-Para executar o projeto eu recomendo que você clone este repositório, abra-o no Android Studio (eu mantenho meu atualizado), sincronize build.gradle e execute.
->>Qualquer dúvida me chame pois estou disposto a ajudar 
-
-# English Instructions
+#Instructions
 To run the project I recommend that you clone this repository, then open it in Android Studio (I keep my updated), synchronize build.gradle and run.
 >>Any questions, I'm willing to help.
 
-# Prévia Visual/Visual preview
+#Visual preview
 >Detalhes do filme
 >Details Movie
 
