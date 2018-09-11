@@ -6,8 +6,6 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.arctouch.codechallenge.home.MovieViewModel
-import com.arctouch.codechallenge.home.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.helderrocha.testeparaserinvolvido.BR
@@ -17,6 +15,8 @@ import com.example.helderrocha.testeparaserinvolvido.R
 import com.example.helderrocha.testeparaserinvolvido.databinding.DetailsActivityBinding
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.MovieImageUrlBuilder
+import com.example.helderrocha.testeparaserinvolvido.view_model.MovieViewModel
+import com.example.helderrocha.testeparaserinvolvido.view_model.ViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.details_activity.*
 import kotlinx.android.synthetic.main.home_activity.*

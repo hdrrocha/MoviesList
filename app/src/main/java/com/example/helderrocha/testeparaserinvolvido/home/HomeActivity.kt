@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.arctouch.codechallenge.home.MoviesViewModel
-import com.arctouch.codechallenge.home.ViewModelFactory
 import com.example.helderrocha.testeparaserinvolvido.R
 import com.example.helderrocha.testeparaserinvolvido.data.Cache
 import com.example.helderrocha.testeparaserinvolvido.data.DatabaseHelper
@@ -20,6 +19,7 @@ import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapter
 import com.example.helderrocha.testeparaserinvolvido.home.adapter.MovieAdapterOff
 import com.example.helderrocha.testeparaserinvolvido.model.Movie
 import com.example.helderrocha.testeparaserinvolvido.util.ConnectUtil
+import com.example.helderrocha.testeparaserinvolvido.view_model.ViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.home_activity.*
 import javax.inject.Inject
