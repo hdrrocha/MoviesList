@@ -1,4 +1,3 @@
-# TestToBeInvolved
 
 # Intruções
 Para executar o projeto eu recomendo que você clone este repositório, abra-o no Android Studio (eu mantenho meu atualizado), sincronize build.gradle e execute.
