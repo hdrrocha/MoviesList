@@ -1,4 +1,4 @@
-# TestToBeInvolved
+
 
 #Instructions
 To run the project I recommend that you clone this repository, then open it in Android Studio (I keep my updated), synchronize build.gradle and run.
